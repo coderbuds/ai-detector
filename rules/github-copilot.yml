@@ -1,0 +1,49 @@
+# GitHub Copilot Detection Rules
+# Transcribed from CheckExplicitAIAttributionAction
+# Last updated: 2025-12-30
+
+tool:
+  id: github-copilot
+  name: GitHub Copilot
+  provider: GitHub / Microsoft
+  variants:
+    - copilot
+    - copilot-chat
+
+# Explicit markers
+explicit_markers:
+  # PR description footers
+  commit_footers:
+    - pattern: '🤖\s*Generated with.*Copilot'
+      regex: true
+      confidence: 100
+      description: "GitHub Copilot footer"
+
+    - pattern: 'Co-Authored-By:.*GitHub Copilot'
+      regex: true
+      confidence: 100
+      description: "GitHub Copilot co-author"
+
+    - pattern: '\[GitHub Copilot\]'
+      regex: true
+      confidence: 100
+      description: "GitHub Copilot attribution"
+
+  # Commit author patterns
+  bot_authors:
+    - username: copilot[bot]
+      confidence: 100
+      description: "Copilot bot username"
+
+    - username: github-copilot
+      confidence: 100
+      description: "GitHub Copilot username"
+
+    - email: copilot@github.com
+      confidence: 100
+      description: "Copilot bot email"
+
+    - email_pattern: 'copilot.*@github\.com'
+      regex: true
+      confidence: 100
+      description: "Copilot email pattern"

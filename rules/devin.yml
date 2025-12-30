@@ -1,0 +1,48 @@
+# Devin AI Detection Rules
+# Transcribed from CheckExplicitAIAttributionAction
+# Last updated: 2025-12-30
+
+tool:
+  id: devin
+  name: Devin
+  provider: Cognition AI
+  website: https://devin.ai
+
+# Explicit markers
+explicit_markers:
+  # Commit author patterns
+  bot_authors:
+    - username: devin-bot
+      confidence: 100
+      description: "Devin bot username"
+
+    - email: bot@devin.ai
+      confidence: 100
+      description: "Devin bot email"
+
+    - email_pattern: '@devin\.ai'
+      regex: true
+      confidence: 100
+      description: "Devin.ai email domain"
+
+  # PR description patterns
+  commit_footers:
+    - pattern: '🤖\s*Generated with.*Devin'
+      regex: true
+      confidence: 100
+      description: "Devin footer"
+
+    - pattern: 'Co-Authored-By:.*Devin'
+      regex: true
+      confidence: 100
+      description: "Devin co-author"
+
+    - pattern: '\[Devin\]'
+      regex: true
+      confidence: 100
+      description: "Devin attribution"
+
+    - pattern: 'devin\.ai'
+      regex: true
+      confidence: 95
+      description: "Devin.ai website mention"

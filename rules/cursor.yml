@@ -1,0 +1,74 @@
+# Cursor Detection Rules
+# Transcribed from CheckExplicitAIAttributionAction + analysis
+# Last updated: 2025-12-30
+
+tool:
+  id: cursor
+  name: Cursor
+  provider: Anysphere
+  website: https://cursor.com
+
+# Explicit markers
+explicit_markers:
+  # PR description patterns
+  commit_footers:
+    - pattern: '🤖\s*Generated with.*Cursor'
+      regex: true
+      confidence: 100
+      description: "Cursor footer with emoji"
+
+    - pattern: '\[Cursor\]'
+      regex: true
+      confidence: 100
+      description: "Cursor attribution"
+
+    - pattern: 'cursor\.so'
+      regex: true
+      confidence: 100
+      description: "Cursor website mention"
+
+    - pattern: 'cursor\.com/background-agent'
+      regex: true
+      confidence: 100
+      description: "Cursor.com background agent link"
+
+    - pattern: 'cursor\.com/agents'
+      regex: true
+      confidence: 100
+      description: "Cursor.com agents link"
+
+  # HTML comments
+  html_comments:
+    - pattern: '<!--\s*CURSOR_SUMMARY\s*-->'
+      regex: true
+      confidence: 95
+      description: "Cursor summary comment (very distinctive)"
+
+    - pattern: '<!--.*cursor.*-->'
+      regex: true
+      case_insensitive: true
+      confidence: 80
+      description: "Generic cursor HTML comments"
+
+  # Co-author attributions
+  co_author_attributions:
+    - pattern: 'Co-Authored-By:.*Cursor'
+      regex: true
+      confidence: 100
+      description: "Cursor co-author attribution"
+
+  # Commit author patterns
+  bot_authors:
+    - username: cursor-bot
+      confidence: 100
+      description: "Cursor bot username"
+
+    - email_pattern: '@cursor\.so'
+      regex: true
+      confidence: 100
+      description: "Cursor.so email"
+
+    - email_pattern: 'cursor@'
+      regex: true
+      confidence: 90
+      description: "Cursor email pattern"
