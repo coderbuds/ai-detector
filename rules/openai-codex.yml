@@ -1,0 +1,56 @@
+# OpenAI Codex Detection Rules
+# Transcribed from CheckExplicitAIAttributionAction
+# Last updated: 2025-12-30
+
+tool:
+  id: openai-codex
+  name: OpenAI Codex
+  provider: OpenAI
+  variants:
+    - codex
+    - code-davinci-002
+
+# Explicit markers
+explicit_markers:
+  # Labels and tags
+  labels:
+    - name: codex
+      confidence: 100
+      description: "PR has 'codex' label"
+
+  # Branch naming patterns
+  branch_patterns:
+    - pattern: '^codex/'
+      regex: true
+      confidence: 90
+      description: "Branch starts with codex/"
+
+    - pattern: '^codex-'
+      regex: true
+      confidence: 90
+      description: "Branch starts with codex-"
+
+    - pattern: '/codex/'
+      regex: true
+      confidence: 85
+      description: "Branch contains /codex/"
+
+  # Title/description mentions
+  text_patterns:
+    - pattern: 'codex/'
+      location: title
+      case_insensitive: true
+      confidence: 70
+      description: "Title mentions codex/"
+
+    - pattern: 'codex-'
+      location: title
+      case_insensitive: true
+      confidence: 70
+      description: "Title mentions codex-"
+
+    - pattern: 'codex/'
+      location: description
+      case_insensitive: true
+      confidence: 60
+      description: "Description mentions codex/"

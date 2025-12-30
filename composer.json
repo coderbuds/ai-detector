@@ -12,7 +12,8 @@
     ],
     "require": {
         "php": "^8.2",
-        "spatie/laravel-data": "^4.0"
+        "spatie/laravel-data": "^4.0",
+        "symfony/yaml": "^6.0 || ^7.0"
     },
     "require-dev": {
         "pestphp/pest": "^2.0 || ^3.0",

@@ -1,0 +1,58 @@
+# Claude Code / Anthropic AI Detection Rules
+# Transcribed from CheckExplicitAIAttributionAction
+# Last updated: 2025-12-30
+
+tool:
+  id: claude-code
+  name: Claude Code
+  provider: Anthropic
+  variants:
+    - claude-3-5-sonnet-20241022
+    - claude-3-5-sonnet-20240620
+    - claude-sonnet-4-5
+    - claude-opus-4-5
+
+# Explicit markers provide definitive detection (100% confidence)
+explicit_markers:
+  # PR description footers
+  commit_footers:
+    - pattern: '🤖\s*Generated with.*Claude Code'
+      regex: true
+      confidence: 100
+      description: "Official Claude Code footer with emoji"
+
+    - pattern: '\[Claude Code\]\(https://claude\.(com/claude-code|ai/code)\)'
+      regex: true
+      confidence: 100
+      description: "Claude Code link in PR description"
+
+  # Co-author attributions in commits or PR description
+  co_author_attributions:
+    - pattern: 'Co-Authored-By:\s*Claude.*noreply@anthropic\.com'
+      regex: true
+      confidence: 100
+      description: "Claude co-author attribution"
+
+    - pattern: 'Co-Authored-By:\s*Claude Sonnet'
+      regex: true
+      confidence: 100
+      description: "Claude Sonnet co-author"
+
+  # Commit author emails and names
+  bot_authors:
+    - email: noreply@anthropic.com
+      confidence: 100
+      description: "Anthropic bot email"
+
+    - email: claude@anthropic.com
+      confidence: 100
+      description: "Claude bot email"
+
+    - username: claude-bot
+      confidence: 100
+      description: "Claude bot username"
+
+    - name_pattern: 'claude sonnet'
+      case_insensitive: true
+      confidence: 100
+      description: "Claude Sonnet commit author name"

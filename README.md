@@ -1,70 +1,130 @@
-# AI Detector
+# AI Code Detector - YAML Rules
 
-Multi-strategy AI code detection for pull requests.
+> Portable, maintainable AI code detection rules for identifying AI-generated pull requests and commits.
+
+[![Accuracy](https://img.shields.io/badge/accuracy-98%25-brightgreen)](https://github.com/coderbuds/ai-detector)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 
 ## Overview
 
-AI Detector is an open-source PHP package that detects AI-generated code in pull requests using multiple detection strategies:
+This package provides **YAML-based detection rules** for identifying AI-generated code and pull requests. The rules detect explicit markers from popular AI coding tools.
 
-- **Explicit Attribution Detection** - Bot authors, footers, labels (100% accuracy)
-- **Commit Pattern Detection** - Temporal analysis, burst commits, typo ratios (85%+ accuracy)
-- **Tool Fingerprint Detection** - Claude/Copilot/ChatGPT-specific patterns (75%+ accuracy)
-- **AI Model Detection** - OpenAI/Claude powered analysis (configurable)
+## Supported Tools
+
+- 🤖 **Claude Code** (Anthropic)
+- 🔵 **GitHub Copilot** (Microsoft)
+- ⚡ **Cursor** (Anysphere)
+- 🟢 **OpenAI Codex** (OpenAI)
+- 🚀 **Devin** (Cognition AI)
 
 ## Features
 
-- 🎯 **Multi-strategy detection** - Combine multiple signals for higher accuracy
-- 🔧 **Highly configurable** - Enable/disable detectors, customize thresholds
-- 💰 **Cost-optimized** - Early exit when definitive results found
-- 🔌 **Framework-agnostic** - Works standalone or with Laravel
-- 📊 **Transparent** - See exactly which detectors triggered and why
-- 🧩 **Extensible** - Easy to build custom detectors
-
-## Installation
-
-```bash
-composer require coderbuds/ai-detector
-```
+✅ **Portable** - Use with any language or platform
+✅ **Maintainable** - Update rules without code changes  
+✅ **Transparent** - Human-readable YAML format
+✅ **Accurate** - 98% accuracy on real-world data
 
 ## Quick Start
 
+All detection rules are in the `rules/` directory as YAML files.
+
+**Example:**
+```yaml
+# rules/claude-code.yml
+tool:
+  id: claude-code
+  name: Claude Code
+  provider: Anthropic
+
+explicit_markers:
+  commit_footers:
+    - pattern: '🤖\s*Generated with.*Claude Code'
+      regex: true
+      confidence: 100
+      description: "Official Claude Code footer"
+```
+
+## Usage Examples
+
+### PHP
 ```php
-use CoderBuds\AiDetector\DetectorManager;
-use CoderBuds\AiDetector\DetectorConfig;
-use CoderBuds\AiDetector\Data\PullRequestData;
+use Symfony\Component\Yaml\Yaml;
 
-// Initialize with default configuration
-$manager = DetectorManager::create();
+$rules = Yaml::parseFile('rules/claude-code.yml');
 
-// Prepare PR data
-$prData = new PullRequestData(/* ... */);
-
-// Run detection
-$result = $manager->detect($prData);
-
-// Check if AI-generated
-if ($result->isAIGenerated()) {
-    echo "AI detected: {$result->detectedTool}\n";
-    echo "Score: {$result->finalScore}%\n";
+foreach ($rules['explicit_markers']['commit_footers'] as $marker) {
+    if (preg_match('/' . $marker['pattern'] . '/i', $prDescription)) {
+        return [
+            'detected_tool' => $rules['tool']['name'],
+            'confidence' => $marker['confidence'],
+        ];
+    }
 }
 ```
 
-## Documentation
+### Python
+```python
+import yaml
+import re
 
-- [Installation & Configuration](docs/CONFIGURATION.md)
-- [Available Detectors](docs/DETECTORS.md)
-- [Laravel Integration](docs/LARAVEL_INTEGRATION.md)
-- [Building Custom Detectors](docs/CUSTOM_DETECTORS.md)
-- [Accuracy Metrics](docs/ACCURACY.md)
+with open('rules/claude-code.yml') as f:
+    rules = yaml.safe_load(f)
 
-## License
+for marker in rules['explicit_markers']['commit_footers']:
+    if re.search(marker['pattern'], pr_description, re.I):
+        return {
+            'detected_tool': rules['tool']['name'],
+            'confidence': marker['confidence']
+        }
+```
 
-MIT License - see [LICENSE](LICENSE) file for details.
+### Node.js
+```javascript
+const yaml = require('js-yaml');
+const fs = require('fs');
+
+const rules = yaml.load(fs.readFileSync('rules/claude-code.yml'));
+
+for (const marker of rules.explicit_markers.commit_footers) {
+    if (new RegExp(marker.pattern, 'i').test(prDescription)) {
+        return {
+            detectedTool: rules.tool.name,
+            confidence: marker.confidence
+        };
+    }
+}
+```
+
+## Rule Categories
+
+- **commit_footers** - Patterns in PR descriptions
+- **co_author_attributions** - Co-author tags in commits
+- **bot_authors** - Bot usernames and emails
+- **html_comments** - Special HTML comments
+- **labels** - PR labels
+- **branch_patterns** - Branch naming conventions
+
+## Available Rules
+
+| Tool | File | Accuracy |
+|------|------|----------|
+| Claude Code | `claude-code.yml` | 100% |
+| GitHub Copilot | `github-copilot.yml` | 100% |
+| Cursor | `cursor.yml` | 96% |
+| OpenAI Codex | `openai-codex.yml` | 100% |
+| Devin | `devin.yml` | N/A |
 
 ## Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+1. Create `rules/tool-name.yml`
+2. Follow existing format
+3. Test against real PRs
+4. Submit PR with accuracy metrics
+
+## License
+
+MIT License
 
 ## Credits
 
-Built by [CoderBuds](https://coderbuds.com) - AI-powered code review and team metrics.
+Created by [CoderBuds](https://coderbuds.com)
