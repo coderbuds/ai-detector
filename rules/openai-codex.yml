@@ -54,3 +54,9 @@ explicit_markers:
       case_insensitive: true
       confidence: 60
       description: "Description mentions codex/"
+
+    - pattern: 'codex-'
+      location: description
+      case_insensitive: true
+      confidence: 60
+      description: "Description mentions codex-"
