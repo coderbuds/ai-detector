@@ -1,0 +1,29 @@
+tool:
+  id: windsurf
+  name: WindSurf
+  provider: Codeium
+  website: https://codeium.com/windsurf
+
+explicit_markers:
+  commit_footers:
+    - pattern: 'WindSurf'
+      regex: false
+      confidence: 95
+      description: "WindSurf mention in PR description"
+
+    - pattern: 'codeium.com/windsurf'
+      regex: false
+      confidence: 100
+      description: "WindSurf URL reference"
+
+  html_comments:
+    - pattern: '<!-- WindSurf -->'
+      regex: false
+      confidence: 100
+      description: "WindSurf HTML comment marker"
+
+  branch_patterns:
+    - pattern: '^windsurf[-/]'
+      case_insensitive: true
+      confidence: 80
+      description: "Branch name starts with windsurf-"

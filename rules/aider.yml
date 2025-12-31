@@ -1,0 +1,36 @@
+tool:
+  id: aider
+  name: Aider
+  provider: Open Source
+  website: https://aider.chat
+
+explicit_markers:
+  commit_footers:
+    - pattern: 'aider:'
+      regex: false
+      confidence: 90
+      description: "Aider commit message prefix"
+
+    - pattern: 'aider.chat'
+      regex: false
+      confidence: 100
+      description: "Aider website reference"
+
+  text_patterns:
+    - pattern: 'aider'
+      location: description
+      case_insensitive: true
+      confidence: 60
+      description: "Description mentions aider"
+
+  branch_patterns:
+    - pattern: '^aider[-/]'
+      case_insensitive: true
+      confidence: 80
+      description: "Branch name starts with aider-"
+
+  html_comments:
+    - pattern: '<!-- Generated with aider -->'
+      regex: false
+      confidence: 100
+      description: "Aider HTML comment marker"
