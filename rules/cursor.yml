@@ -1,6 +1,6 @@
 # Cursor Detection Rules
 # Transcribed from CheckExplicitAIAttributionAction + analysis
-# Last updated: 2025-12-30
+# Last updated: 2026-02-21
 
 tool:
   id: cursor
@@ -49,6 +49,21 @@ explicit_markers:
       case_insensitive: true
       confidence: 80
       description: "Generic cursor HTML comments"
+
+  # Text patterns in PR description
+  text_patterns:
+    - pattern: 'Written by.*Cursor'
+      regex: true
+      case_insensitive: true
+      confidence: 95
+      location: description
+      description: "Cursor Bugbot attribution in description"
+
+    - pattern: 'cursor\.com/dashboard'
+      regex: true
+      confidence: 90
+      location: description
+      description: "Cursor dashboard link in description"
 
   # Co-author attributions
   co_author_attributions:
