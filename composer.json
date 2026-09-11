@@ -3,6 +3,7 @@
     "description": "Multi-strategy AI code detection for pull requests",
     "type": "library",
     "license": "MIT",
+    "homepage": "https://coderbuds.com/tools/ai-code-detector",
     "keywords": ["ai", "detection", "pull-request", "github", "copilot", "claude-code"],
     "authors": [
         {
