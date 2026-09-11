@@ -11,39 +11,11 @@
             "email": "hello@coderbuds.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/coderbuds/ai-detector/issues",
+        "source": "https://github.com/coderbuds/ai-detector"
+    },
     "require": {
-        "php": "^8.2",
-        "spatie/laravel-data": "^4.0",
-        "symfony/yaml": "^6.0 || ^7.0"
-    },
-    "require-dev": {
-        "pestphp/pest": "^2.0 || ^3.0",
-        "phpstan/phpstan": "^1.10",
-        "laravel/pint": "^1.0",
-        "mockery/mockery": "^1.6"
-    },
-    "autoload": {
-        "psr-4": {
-            "CoderBuds\\AiDetector\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "CoderBuds\\AiDetector\\Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
-        "lint": "vendor/bin/pint",
-        "analyse": "vendor/bin/phpstan analyse"
-    },
-    "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+        "php": ">=8.0"
+    }
 }
