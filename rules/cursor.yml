@@ -1,6 +1,6 @@
 # Cursor Detection Rules
 # Transcribed from CheckExplicitAIAttributionAction + analysis
-# Last updated: 2026-02-21
+# Last updated: 2026-09-26
 
 tool:
   id: cursor
@@ -64,6 +64,13 @@ explicit_markers:
       confidence: 90
       location: description
       description: "Cursor dashboard link in description"
+
+  # Background agents open branches as cursor/<name>
+  branch_patterns:
+    - pattern: '^cursor/'
+      regex: true
+      confidence: 90
+      description: "Branch opened by a Cursor background agent (cursor/…)"
 
   # Co-author attributions
   co_author_attributions:

@@ -1,0 +1,124 @@
+# Pull request shapes seen in production, and who they must be attributed to.
+# `expect: null` means no tool — the rules must stay quiet. Titles, branches
+# and descriptions are real shapes with identifying details removed.
+
+- name: Dependabot bump of @openai/codex is not a Codex pull request
+  expect: null
+  pr:
+    title: "build(deps): bump @openai/codex from 0.117.0 to 0.118.0"
+    branch: dependabot/npm_and_yarn/openai/codex-0.118.0
+    description: "Bumps [@openai/codex](https://github.com/openai/codex/tree/HEAD/codex-cli) from 0.117.0 to 0.118.0."
+
+- name: Mentioning a .codex/ config path is not a Codex pull request
+  expect: null
+  pr:
+    title: Configure root MCP servers
+    branch: feature/mcp-config
+    description: "Adds `.codex/config.toml` alongside `.cursor/mcp.json` so every agent loads the same servers."
+
+- name: Codex cloud branch
+  expect: openai-codex
+  pr:
+    title: Validate generated PR actor
+    branch: codex/validate-generated-pr-actor
+    description: "## Summary\n- validate the actor"
+
+- name: Codex cloud title prefix with the branch unknown
+  expect: openai-codex
+  pr:
+    title: "[codex] Fix trusted publishing npm upgrade step"
+    description: ""
+
+- name: Codex cloud task link
+  expect: openai-codex
+  pr:
+    title: "fix(client): use getJWTToken() for dashboard requests"
+    description: "Uses the SDK helper.\n\n------\n[Codex Task](https://chatgpt.com/codex/cloud/tasks/task_e_0123456789abcdef0123456789abcdef)"
+
+- name: A pull request about Codex setup is not a Codex pull request
+  expect: null
+  pr:
+    title: "docs: add Codex MCP setup"
+    branch: docs/codex-mcp
+    description: "The setup page did not include a Codex-specific path."
+
+- name: Jules signature
+  expect: jules
+  pr:
+    title: "Palette: Add Escape key dismissal to modals"
+    branch: palette/escape-dismissal-1498727143055922862
+    description: "Adds keyboard dismissal.\n\n---\n*PR created automatically by Jules for task [1498727143055922862](https://jules.google.com/task/1498727143055922862) started by @someone*"
+
+- name: Jules task branch alone
+  expect: jules
+  pr:
+    title: "Sentinel: Path parameter UUID validation"
+    branch: jules-4486629921808545700-9ef0dd4e
+    description: "Validates UUID path parameters."
+
+- name: Claude Code web branch
+  expect: claude-code
+  pr:
+    title: "fix(PLT-1400): set dedicated ip_pool on sends"
+    branch: claude/sparkpost-ip-pool-update-ab4c44
+    description: "Sets the pool."
+
+- name: Claude co-author trailer in lower case
+  expect: claude-code
+  pr:
+    title: Add bulk delete script
+    branch: bulk-delete
+    description: ""
+    commits:
+      - message: "Add bulk delete script\n\nCo-authored-by: Claude <noreply@anthropic.com>"
+
+- name: Claude Code footer
+  expect: claude-code
+  pr:
+    title: Show agent action stages
+    branch: agent-stages
+    description: "## Summary\n...\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)"
+
+- name: Cursor background agent branch
+  expect: cursor
+  pr:
+    title: "fix(CLP-2112): prevent crash on loops with no end date"
+    branch: cursor/fix-loop-no-end-date-crash-1edb
+    description: "Guards the loop."
+
+- name: The word raider is not Aider
+  expect: null
+  pr:
+    title: "Fix raider: boss spawn timing"
+    branch: fix/raider-spawn
+    description: "The raider: boss spawned twice. Braided timers fixed."
+
+- name: Aider commit prefix
+  expect: aider
+  pr:
+    title: Add tests for parser
+    branch: parser-tests
+    description: ""
+    commits:
+      - message: "aider: Added tests for the parser"
+
+- name: Aider branch
+  expect: aider
+  pr:
+    title: Add parser tests
+    branch: aider/parser-tests
+    description: ""
+
+- name: A changelog naming WindSurf is not a WindSurf pull request
+  expect: null
+  pr:
+    title: "build(deps): bump laravel/boost from 2.1 to 2.2"
+    branch: dependabot/composer/laravel/boost-2.2
+    description: "Add WindSurf and Kiro guideline files by @contributor"
+
+- name: A plain human pull request
+  expect: null
+  pr:
+    title: Fix pagination on the repositories page
+    branch: fix/repositories-pagination
+    description: "## Summary\n- off-by-one in the page count\n\n## Testing\n- added a feature test"

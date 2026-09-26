@@ -6,22 +6,15 @@ tool:
 
 explicit_markers:
   bot_authors:
-    - pattern: 'replit[bot]'
-      location: commit_author
+    - username: 'replit[bot]'
       confidence: 100
       description: "Replit bot commit author"
 
-    - pattern: 'ai@replit.com'
-      location: commit_author_email
+    - email: 'ai@replit.com'
       confidence: 100
       description: "Replit AI bot email"
 
   commit_footers:
-    - pattern: 'Replit AI'
-      regex: false
-      confidence: 95
-      description: "Replit AI mention in PR description"
-
     - pattern: 'replit.com/ai'
       regex: false
       confidence: 100
@@ -34,7 +27,6 @@ explicit_markers:
       description: "Replit AI HTML comment"
 
   labels:
-    - pattern: 'replit-ai'
-      case_insensitive: true
+    - name: 'replit-ai'
       confidence: 90
       description: "Replit AI PR label"

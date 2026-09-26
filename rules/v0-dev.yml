@@ -26,10 +26,3 @@ explicit_markers:
       regex: false
       confidence: 100
       description: "v0 by Vercel comment marker"
-
-  text_patterns:
-    - pattern: 'v0\.dev'
-      location: description
-      case_insensitive: false
-      confidence: 80
-      description: "Description mentions v0.dev"
