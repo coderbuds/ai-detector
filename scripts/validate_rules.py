@@ -40,6 +40,8 @@ PATTERN_KEYS = {"pattern", "regex", "case_insensitive", "confidence", "descripti
 LABEL_KEYS = {"name", "confidence", "description"}
 BOT_MATCH_KEYS = {"username", "email", "email_pattern", "name_pattern"}
 BOT_KEYS = BOT_MATCH_KEYS | {"regex", "case_insensitive", "confidence", "description"}
+CLIENT_MATCH_KEYS = {"client_name", "user_agent"}
+CLIENT_KEYS = CLIENT_MATCH_KEYS | {"case_insensitive", "confidence", "description"}
 TOOL_KEYS = {"id", "name", "provider", "website", "variants"}
 REGEX_HINT = re.compile(r"(^\^)|(\\[sdwbS.\[\]()])|(\[[^\]]+\])|(\.\*)")
 
@@ -61,6 +63,8 @@ def validate(path: Path, data: dict) -> list[str]:
             allowed, required = LABEL_KEYS, {"name"}
         elif category == "bot_authors":
             allowed, required = BOT_KEYS, None
+        elif category == "mcp_clients":
+            allowed, required = CLIENT_KEYS, None
         else:
             errors.append(f"{where}: unknown marker category `{category}` is never checked")
             continue
@@ -77,6 +81,9 @@ def validate(path: Path, data: dict) -> list[str]:
             if category == "bot_authors" and not BOT_MATCH_KEYS & set(marker):
                 errors.append(f"{at}: needs one of {sorted(BOT_MATCH_KEYS)}")
 
+            if category == "mcp_clients" and not CLIENT_MATCH_KEYS & set(marker):
+                errors.append(f"{at}: needs one of {sorted(CLIENT_MATCH_KEYS)}")
+
             if category == "text_patterns" and marker.get("location", "description") not in ("title", "description"):
                 errors.append(f"{at}: location must be title or description")
 
@@ -84,7 +91,7 @@ def validate(path: Path, data: dict) -> list[str]:
             if not isinstance(confidence, int) or not 0 < confidence <= 100:
                 errors.append(f"{at}: confidence must be an integer from 1 to 100")
 
-            for key in ("pattern", "email_pattern", "name_pattern"):
+            for key in ("pattern", "email_pattern", "name_pattern", "client_name", "user_agent"):
                 pattern = marker.get(key)
                 if pattern is None:
                     continue
@@ -137,12 +144,23 @@ def bot_matches(commits: list[dict], marker: dict) -> bool:
     return False
 
 
+def client_matches(clients: list[dict], marker: dict) -> bool:
+    for client in clients:
+        if "client_name" in marker and text_matches(client.get("client_name"), marker, "client_name", force_regex=True):
+            return True
+        if "user_agent" in marker and text_matches(client.get("user_agent"), marker, "user_agent", force_regex=True):
+            return True
+
+    return False
+
+
 def detect(rules: list[dict], pr: dict) -> str | None:
     title = pr.get("title", "")
     description = pr.get("description", "")
     commits = pr.get("commits", [])
     messages = [commit.get("message", "") for commit in commits]
     labels = [label.lower() for label in pr.get("labels", [])]
+    clients = pr.get("mcp_clients", [])
     branch = pr.get("branch")
 
     if not branch:
@@ -162,6 +180,8 @@ def detect(rules: list[dict], pr: dict) -> str | None:
                     hit = bool(marker.get("name")) and marker["name"].lower() in labels
                 elif category == "bot_authors":
                     hit = bot_matches(commits, marker)
+                elif category == "mcp_clients":
+                    hit = client_matches(clients, marker)
                 else:
                     hit = False
 

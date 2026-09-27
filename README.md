@@ -237,6 +237,9 @@ The YAML rules check for these marker types:
 | `labels` | PR labels | `codex`, `ai-generated` |
 | `branch_patterns` | Branch naming conventions | `codex/feature`, `claude/fix-login` |
 | `text_patterns` | Title or description text (`location: title` or `description`) | `[codex] Fix publishing` |
+| `mcp_clients` | The MCP client that worked on the change, by `client_name` or `user_agent` (regex) | `codex-mcp-client` |
+
+`mcp_clients` is the one category that is not on the pull request. Coding agents name themselves when they connect to an MCP server (`initialize`'s `clientInfo`, and the HTTP User-Agent), so a consumer that runs an MCP server and saw a session act on a change — Coderbuds links the size check an agent runs just before opening a pull request — can pass that client in. It is how local Codex CLI, which signs nothing, becomes visible.
 
 ---
 
@@ -258,7 +261,7 @@ A marker at confidence 100 is the tool signing its own work. Lower confidences �
 - ChatGPT code copied manually
 - AI-assisted refactoring without attribution
 - Code quality or "AI-like" patterns
-- Agents that sign nothing. **Codex CLI run locally leaves no marker at all**, and neither does any agent whose footer a person deletes
+- Agents that sign nothing. **Codex CLI run locally leaves no marker on the pull request**, and neither does any agent whose footer a person deletes. The one trace Codex does leave is the name it connects to MCP servers with — see `mcp_clients`
 
 **No match does not mean a person wrote it.** On Coderbuds' own production data, pull requests with no marker were routinely agent-written — including every one Codex CLI produced. Treat "no marker found" as unknown, never as human. The only reliable source for those is the agent saying so itself; Coderbuds asks coding agents to report their authorship over MCP for exactly this reason.
 
@@ -323,7 +326,7 @@ explicit_markers:
       description: "Your Tool bot author"
 ```
 
-`bot_authors` entries match on `username`, `email`, `email_pattern` or `name_pattern`; `labels` entries on `name`. Any other key is silently ignored by the matcher, so the validator rejects it.
+`bot_authors` entries match on `username`, `email`, `email_pattern` or `name_pattern`; `mcp_clients` entries on `client_name` or `user_agent`; `labels` entries on `name`. Any other key is silently ignored by the matcher, so the validator rejects it.
 
 4. **Add fixture cases** to `fixtures/cases.yml` — a pull request your rule must catch, and one it must not
 5. **Run the validator:** `pip install pyyaml && python3 scripts/validate_rules.py`

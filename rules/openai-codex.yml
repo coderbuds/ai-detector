@@ -51,6 +51,20 @@ explicit_markers:
       confidence: 100
       description: "Link to the Codex task that opened the PR"
 
+  # Codex names itself when it connects to an MCP server: clientInfo name
+  # `codex-mcp-client` (title "Codex") and User-Agent `codex-mcp-client/<version>`,
+  # per codex-rs in openai/codex. It is the only trace local Codex CLI leaves,
+  # and it is not on the pull request: a consumer has to have seen a Codex
+  # session act on the change, e.g. check its size just before it opened.
+  mcp_clients:
+    - client_name: '^codex-mcp-client$'
+      confidence: 90
+      description: "A Codex session worked on this change over MCP before it opened"
+
+    - user_agent: '^codex-mcp-client/'
+      confidence: 90
+      description: "A Codex session (by User-Agent) worked on this change over MCP before it opened"
+
 # Deliberately absent: bare mentions of "codex/" or "codex-" in a title or
 # description. On Coderbuds' production data they matched Dependabot bumps of
 # @openai/codex and `.codex/` config paths — never an agent's own pull request.

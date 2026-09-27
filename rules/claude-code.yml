@@ -68,3 +68,10 @@ explicit_markers:
       case_insensitive: true
       confidence: 100
       description: "Claude Sonnet commit author name"
+
+  # Claude Code's HTTP User-Agent is `claude-code/<version>`, as seen on MCP
+  # requests in Coderbuds production. Session evidence, not a signature.
+  mcp_clients:
+    - user_agent: '^claude-code/'
+      confidence: 90
+      description: "A Claude Code session worked on this change over MCP before it opened"
