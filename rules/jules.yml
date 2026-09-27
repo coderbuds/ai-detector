@@ -1,0 +1,33 @@
+# Jules (Google) Detection Rules
+# Last updated: 2026-09-26
+#
+# Jules opens pull requests itself and signs the description. Seen on 172
+# pull requests in one Coderbuds-tracked repository; none were attributed
+# before this file existed.
+
+tool:
+  id: jules
+  name: Jules
+  provider: Google
+  website: https://jules.google
+
+explicit_markers:
+  # PR description signature
+  commit_footers:
+    - pattern: 'PR created automatically by Jules for task'
+      regex: false
+      case_insensitive: true
+      confidence: 100
+      description: "Jules pull request signature"
+
+    - pattern: 'jules\.google\.com/task/'
+      regex: true
+      confidence: 100
+      description: "Link to the Jules task that opened the PR"
+
+  # Branch naming: jules-<task id>-<hash>
+  branch_patterns:
+    - pattern: '^jules-\d{6,}'
+      regex: true
+      confidence: 90
+      description: "Branch named after a Jules task id"

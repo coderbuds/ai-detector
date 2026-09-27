@@ -6,11 +6,6 @@ tool:
 
 explicit_markers:
   commit_footers:
-    - pattern: 'WindSurf'
-      regex: false
-      confidence: 95
-      description: "WindSurf mention in PR description"
-
     - pattern: 'codeium.com/windsurf'
       regex: false
       confidence: 100
@@ -24,6 +19,7 @@ explicit_markers:
 
   branch_patterns:
     - pattern: '^windsurf[-/]'
+      regex: true
       case_insensitive: true
       confidence: 80
       description: "Branch name starts with windsurf-"

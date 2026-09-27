@@ -1,6 +1,6 @@
 # OpenAI Codex Detection Rules
 # Transcribed from CheckExplicitAIAttributionAction
-# Last updated: 2025-12-30
+# Last updated: 2026-09-26
 
 tool:
   id: openai-codex
@@ -35,28 +35,23 @@ explicit_markers:
       confidence: 85
       description: "Branch contains /codex/"
 
-  # Title/description mentions
+  # Codex cloud titles its pull requests "[codex] …"
   text_patterns:
-    - pattern: 'codex/'
+    - pattern: '^\[codex\]'
+      regex: true
+      case_insensitive: true
       location: title
-      case_insensitive: true
-      confidence: 70
-      description: "Title mentions codex/"
+      confidence: 90
+      description: "Title starts with [codex]"
 
-    - pattern: 'codex-'
-      location: title
-      case_insensitive: true
-      confidence: 70
-      description: "Title mentions codex-"
+  # Link back to the Codex cloud task that produced the change
+  commit_footers:
+    - pattern: 'chatgpt\.com/codex/(cloud/)?tasks/'
+      regex: true
+      confidence: 100
+      description: "Link to the Codex task that opened the PR"
 
-    - pattern: 'codex/'
-      location: description
-      case_insensitive: true
-      confidence: 60
-      description: "Description mentions codex/"
-
-    - pattern: 'codex-'
-      location: description
-      case_insensitive: true
-      confidence: 60
-      description: "Description mentions codex-"
+# Deliberately absent: bare mentions of "codex/" or "codex-" in a title or
+# description. On Coderbuds' production data they matched Dependabot bumps of
+# @openai/codex and `.codex/` config paths — never an agent's own pull request.
+# Codex CLI run locally leaves no marker at all; nothing in this file can see it.

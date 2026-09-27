@@ -1,6 +1,6 @@
 # Claude Code / Anthropic AI Detection Rules
 # Transcribed from CheckExplicitAIAttributionAction
-# Last updated: 2025-12-30
+# Last updated: 2026-09-26
 
 tool:
   id: claude-code
@@ -11,6 +11,9 @@ tool:
     - claude-3-5-sonnet-20240620
     - claude-sonnet-4-5
     - claude-opus-4-5
+    - claude-sonnet-5
+    - claude-opus-5
+    - claude-opus-5-5
 
 # Explicit markers provide definitive detection (100% confidence)
 explicit_markers:
@@ -30,13 +33,22 @@ explicit_markers:
   co_author_attributions:
     - pattern: 'Co-Authored-By:\s*Claude.*noreply@anthropic\.com'
       regex: true
+      case_insensitive: true
       confidence: 100
       description: "Claude co-author attribution"
 
     - pattern: 'Co-Authored-By:\s*Claude Sonnet'
       regex: true
+      case_insensitive: true
       confidence: 100
       description: "Claude Sonnet co-author"
+
+  # Claude Code on the web and desktop worktrees open branches as claude/<name>
+  branch_patterns:
+    - pattern: '^claude/'
+      regex: true
+      confidence: 90
+      description: "Branch opened by Claude Code (claude/…)"
 
   # Commit author emails and names
   bot_authors:
