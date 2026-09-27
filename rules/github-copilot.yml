@@ -21,6 +21,7 @@ explicit_markers:
 
     - pattern: 'Co-Authored-By:.*GitHub Copilot'
       regex: true
+      case_insensitive: true
       confidence: 100
       description: "GitHub Copilot co-author"
 

@@ -74,8 +74,11 @@ explicit_markers:
 
   # Co-author attributions
   co_author_attributions:
-    - pattern: 'Co-Authored-By:.*Cursor'
+    # Git reads trailer keys in any case, and Cursor writes
+    # `Co-authored-by: Cursor <cursoragent@cursor.com>`.
+    - pattern: 'Co-Authored-By:\s*Cursor( Agent)?\s*<'
       regex: true
+      case_insensitive: true
       confidence: 100
       description: "Cursor co-author attribution"
 

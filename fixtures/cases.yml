@@ -72,6 +72,24 @@
     commits:
       - message: "Add bulk delete script\n\nCo-authored-by: Claude <noreply@anthropic.com>"
 
+- name: Cursor co-author trailer as Cursor writes it
+  expect: cursor
+  pr:
+    title: Prevent dismissing the paywall by clicking outside
+    branch: fix/paywall-dismiss
+    description: ""
+    commits:
+      - message: "Prevent dismissing the paywall\n\nCo-authored-by: Cursor <cursoragent@cursor.com>"
+
+- name: A co-author whose address merely contains cursor is not Cursor
+  expect: null
+  pr:
+    title: Tidy editor keybindings
+    branch: chore/keybindings
+    description: ""
+    commits:
+      - message: "Tidy keybindings\n\nCo-authored-by: Jane Doe <jane@cursorless.dev>"
+
 - name: Claude Code footer
   expect: claude-code
   pr:
