@@ -140,3 +140,41 @@
     title: Fix pagination on the repositories page
     branch: fix/repositories-pagination
     description: "## Summary\n- off-by-one in the page count\n\n## Testing\n- added a feature test"
+
+- name: Local Codex CLI, seen only by the MCP client that checked the change
+  expect: openai-codex
+  pr:
+    title: "fix: clarify agent activity receipts"
+    branch: agent-activity-clarity
+    description: "## Summary\n- replace raw fallbacks\n\n## Testing\n- targeted tests"
+    mcp_clients:
+      - client_name: codex-mcp-client
+        user_agent: codex-mcp-client/0.40.0
+
+- name: Codex identified by User-Agent alone
+  expect: openai-codex
+  pr:
+    title: "fix: clarify agent action outcomes"
+    branch: handle-held-back-slack-dm
+    description: ""
+    mcp_clients:
+      - user_agent: codex-mcp-client/0.41.2
+
+- name: Claude Code identified by the User-Agent of the session that checked it
+  expect: claude-code
+  pr:
+    title: Record which coding agent made each MCP call
+    branch: mcp-client-identity
+    description: ""
+    mcp_clients:
+      - user_agent: "claude-code/2.1.280 (sdk-ts, agent-sdk/0.3.280)"
+
+- name: An unknown MCP client is not attributed to anyone
+  expect: null
+  pr:
+    title: Tidy settings page
+    branch: chore/settings
+    description: ""
+    mcp_clients:
+      - client_name: some-internal-script
+        user_agent: python-requests/2.32
