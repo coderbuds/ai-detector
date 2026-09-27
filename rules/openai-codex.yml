@@ -68,4 +68,5 @@ explicit_markers:
 # Deliberately absent: bare mentions of "codex/" or "codex-" in a title or
 # description. On Coderbuds' production data they matched Dependabot bumps of
 # @openai/codex and `.codex/` config paths — never an agent's own pull request.
-# Codex CLI run locally leaves no marker at all; nothing in this file can see it.
+# Codex CLI run locally leaves no marker on the pull request; only the
+# mcp_clients rules above can see it, from the session that prepared the change.
